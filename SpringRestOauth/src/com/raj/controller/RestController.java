@@ -13,7 +13,7 @@ import com.raj.service.DataService;
 
 
 @Controller
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class RestController {
 
 	@Autowired
@@ -21,6 +21,7 @@ public class RestController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String login() {
+		System.out.println("Controller");
 		return "login";
 	}
 	
