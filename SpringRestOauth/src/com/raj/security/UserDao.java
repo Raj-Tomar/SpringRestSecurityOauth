@@ -22,6 +22,7 @@ public class UserDao {
 	Transaction tx;
 	
 	public User getByName(String userName) {
+		System.out.println("UserDao");
 		User user = null;
 		try {
 			ClientDetails cd = null;
