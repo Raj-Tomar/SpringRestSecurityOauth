@@ -9,7 +9,7 @@ public class SessionTokenDto implements Serializable {
 	private String sessionId;
 	private String createdTime;
 	private int sessionLifeTime;
-	private String authToken;
+	private String authenticationToken;
 	private String userName;
 	private String appId;
 	private String appName;
@@ -32,11 +32,12 @@ public class SessionTokenDto implements Serializable {
 	public void setSessionLifeTime(int sessionLifeTime) {
 		this.sessionLifeTime = sessionLifeTime;
 	}
-	public String getAuthToken() {
-		return authToken;
+	
+	public String getAuthenticationToken() {
+		return authenticationToken;
 	}
-	public void setAuthToken(String authToken) {
-		this.authToken = authToken;
+	public void setAuthenticationToken(String authenticationToken) {
+		this.authenticationToken = authenticationToken;
 	}
 	public String getUserName() {
 		return userName;

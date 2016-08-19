@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -23,6 +25,7 @@ import com.raj.models.UserDto;
 @RestController
 public class TokenController {
 
+	@RequestMapping(value="/getAuthenticationToken", method=RequestMethod.POST )
 	@ResponseBody
 	public ResponseEntity<String> createAuthenticationToken(@RequestBody String formData, @RequestHeader HttpHeaders head, HttpServletRequest request) {
 		ResponseEntity<String> responseEntity = null;
@@ -37,10 +40,11 @@ public class TokenController {
 		JSONObject resjson;
 		Gson gson = new Gson();
 		JSONObject json;
+		System.out.println("Token Controller: "+formData);
 		try {
 			resjson = new JSONObject();
 			json = new JSONObject(formData);
-			JSONArray reqJson = (JSONArray) json.get("ro");
+			JSONArray reqJson = (JSONArray) json.get("requestObj");
 			UserDto dto = gson.fromJson(reqJson.getJSONObject(0).toString(),UserDto.class);
 			
 			String userName = "";
@@ -57,7 +61,7 @@ public class TokenController {
 				return responseEntity;
 			}
 			String pwd = dto.getPassword();
-			String processed_url = "localhost:8080/oauth/token?grant_type=password&client_id="
+			String processed_url = "http://localhost:8080/SpringRestOauth/oauth/token?grant_type=password&client_id="
 					+ client_type + "&client_secret=" + secret + "&username=" + userName + "&password=" + pwd;
 			entity = new HttpEntity<String>(formData, headers);
 			try {
@@ -80,9 +84,9 @@ public class TokenController {
 					sesdto.setCreatedTime("" + session.getCreationTime());
 					Integer sesstime = 20;
 					sesdto.setSessionLifeTime(sesstime * 60);
-					sesdto.setAuthToken(resp_auth_token);
+					sesdto.setAuthenticationToken(resp_auth_token);
 					sesdto.setAppId(userName);
-					resp_json.put("session_id", session.getId());
+					resp_json.put("sessionId", session.getId());
 					responseEntity = new ResponseEntity<String>(resp_json.toString(), HttpStatus.OK);
 				}
 			} catch(Exception e){

@@ -18,6 +18,7 @@
 	<context:component-scan base-package="com.raj.models" />
 	<context:component-scan base-package="com.raj.security" />
 	<context:component-scan base-package="com.raj.service" />
+	<context:component-scan base-package="com.raj.serviceImpl" />
 	<context:component-scan base-package="com.raj.token.controller" />
 	<mvc:annotation-driven />
 	

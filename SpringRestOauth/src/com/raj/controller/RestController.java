@@ -2,6 +2,8 @@ package com.raj.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,18 +15,30 @@ import com.raj.service.DataService;
 
 
 @Controller
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class RestController {
 
 	@Autowired
-	DataService dataService;
+	private DataService dataService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String login() {
-		System.out.println("Controller");
+	public String home() {
 		return "login";
 	}
 	
+	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	public String login(HttpServletRequest request) {
+		String userName = request.getParameter("userName");
+		String password = request.getParameter("password");
+		System.out.println("UserName: "+userName+"\nPassowrd: "+password);
+		try {
+			String token = dataService.getAuthenticationToken(userName, password);
+			System.out.println(token);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "home";
+	}
 
 	@RequestMapping(value = "/userList", method = RequestMethod.GET)
 	@ResponseBody
