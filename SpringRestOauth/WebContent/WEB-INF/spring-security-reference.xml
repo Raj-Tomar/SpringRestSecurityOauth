@@ -84,7 +84,7 @@
 		</authentication-provider>
 	</authentication-manager>
 	
-	<bean id="userDetailService" class="com.antelope.auth.commontoken.userinfo.MyUserDetailsService"/>
+	<bean id="userDetailService" class="com.raj.security.MyUserDetailsService"/>
 
 	<bean id="clientDetailsUserService" class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
 		<constructor-arg ref="clientDetails" />
