@@ -14,7 +14,11 @@
   	http://www.springframework.org/schema/context 
   	http://www.springframework.org/schema/context/spring-context.xsd">
 	
-	<context:component-scan base-package="com.raj.*" />
+	<context:component-scan base-package="com.raj.controller" />
+	<context:component-scan base-package="com.raj.models" />
+	<context:component-scan base-package="com.raj.security" />
+	<context:component-scan base-package="com.raj.service" />
+	<context:component-scan base-package="com.raj.token.controller" />
 	<mvc:annotation-driven />
 	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">

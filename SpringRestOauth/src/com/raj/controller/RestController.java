@@ -1,4 +1,4 @@
-package com.raj.controllers;
+package com.raj.controller;
 
 import java.util.List;
 

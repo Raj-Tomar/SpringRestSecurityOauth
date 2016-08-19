@@ -23,14 +23,13 @@
 	xmlns:oauth="http://www.springframework.org/schema/security/oauth2" 
 	xmlns:sec="http://www.springframework.org/schema/security"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/security
-	http://www.springframework.org/schema/security/spring-security-3.2.xsd
+	http://www.springframework.org/schema/security/spring-security.xsd
 	http://www.springframework.org/schema/security/oauth2 
 	http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
 	http://www.springframework.org/schema/context 
-	http://www.springframework.org/schema/context/spring-context-3.2.xsd">
- 
+	http://www.springframework.org/schema/context/spring-context.xsd">
  
  
 	<!-- This is default url to get a token from OAuth -->
@@ -54,7 +53,7 @@
 		access-decision-manager-ref="accessDecisionManager"
 		xmlns="http://www.springframework.org/schema/security">
 		<anonymous enabled="false" />
-		<intercept-url pattern="/api/**" access="ROLE_APP" />
+		<intercept-url pattern="/api/**" access="ROLE_USER" />
 		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
 		<access-denied-handler ref="oauthAccessDeniedHandler" />
 	</http>
@@ -75,8 +74,7 @@
 		<property name="authenticationManager" ref="clientAuthenticationManager" />
 	</bean>
 
-	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased"
-		xmlns="http://www.springframework.org/schema/beans">
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased" xmlns="http://www.springframework.org/schema/beans">
 		<constructor-arg>
 			<list>
 				<bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
@@ -116,11 +114,11 @@
 
 	<!-- This defined token store, we have used inmemory tokenstore for now 
 		but this can be changed to a user defined one -->
-	<bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
+	<!-- <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" /> -->
 		
-	<!-- <bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">
+	<bean id="tokenStore" class="org.springframework.security.oauth2.provider.token.JdbcTokenStore">
         <constructor-arg ref="dataSource" />
-	</bean> -->
+	</bean>
 	
 	<context:property-placeholder location="classpath:hibernate.properties" />
 	
@@ -152,7 +150,7 @@
 	<bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
 		<property name="tokenStore" ref="tokenStore" />
 		<property name="supportRefreshToken" value="true" />
-		<property name="accessTokenValiditySeconds" value="120" />
+		<!-- <property name="accessTokenValiditySeconds" value="120" /> -->
 		<property name="clientDetailsService" ref="clientDetails" />
 	</bean>
 
@@ -170,14 +168,13 @@
 		<oauth:password />
 	</oauth:authorization-server>
 
-	<oauth:resource-server id="resourceServerFilter"
-		resource-id="test" token-services-ref="tokenServices" />
+	<oauth:resource-server id="resourceServerFilter" resource-id="test" token-services-ref="tokenServices" />
 
 	<oauth:client-details-service id="clientDetails">
-		<!-- client -->
+		<!-- clients -->
 		<oauth:client client-id="restapp"
 			authorized-grant-types="authorization_code,client_credentials"
-			authorities="ROLE_ADMIN" scope="read,write,trust" secret="somesecret" />
+			authorities="ROLE_ADMIN" scope="read,write,trust" secret="secret" />
 
 		<oauth:client client-id="restapp"
 			authorized-grant-types="password,authorization_code,refresh_token,implicit"
@@ -185,8 +182,7 @@
 
 	</oauth:client-details-service>
 
-	<sec:global-method-security
-		pre-post-annotations="enabled" proxy-target-class="true">
+	<sec:global-method-security pre-post-annotations="enabled" proxy-target-class="true">
 		<!--you could also wire in the expression handler up at the layer of the 
 			http filters. See https://jira.springsource.org/browse/SEC-1452 -->
 		<sec:expression-handler ref="oauthExpressionHandler" />
