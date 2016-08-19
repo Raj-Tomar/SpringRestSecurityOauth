@@ -18,8 +18,14 @@ public class RestController {
 
 	@Autowired
 	DataService dataService;
-
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public String login() {
+		return "login";
+	}
+	
+
+	@RequestMapping(value = "/userList", method = RequestMethod.GET)
 	@ResponseBody
 	public List<User> list() {
 		return dataService.getUserList();
