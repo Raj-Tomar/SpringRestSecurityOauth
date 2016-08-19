@@ -1,4 +1,4 @@
-package com.raj.models;
+package com.raj.security;
 
 import java.io.Serializable;
 import java.util.Objects;

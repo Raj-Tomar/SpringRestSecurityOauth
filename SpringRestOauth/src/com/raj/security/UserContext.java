@@ -1,4 +1,4 @@
-package com.raj.models;
+package com.raj.security;
 
 import java.util.ArrayList;
 import java.util.Collection;

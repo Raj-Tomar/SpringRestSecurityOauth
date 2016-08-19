@@ -5,11 +5,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.raj.models.User;
-/**
- * @author Nagesh.Chauhan
- *
- */
+import com.raj.security.User;
+
 @Service
 public class DataServiceImpl implements DataService {
 

@@ -2,7 +2,7 @@ package com.raj.service;
 
 import java.util.List;
 
-import com.raj.models.User;
+import com.raj.security.User;
 /**
  * @author Nagesh.Chauhan
  *

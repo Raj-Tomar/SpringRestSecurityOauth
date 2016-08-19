@@ -1,4 +1,4 @@
-package com.raj.dao;
+package com.raj.security;
 
 import java.util.Iterator;
 import java.util.List;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.raj.models.ClientDetails;
-import com.raj.models.User;
 
 @SuppressWarnings("deprecation")
 @Component
@@ -22,7 +21,7 @@ public class UserDao {
 	Session session;
 	Transaction tx;
 	
-	public User getByLogin(String userName) {
+	public User getByName(String userName) {
 		User user = null;
 		try {
 			ClientDetails cd = null;

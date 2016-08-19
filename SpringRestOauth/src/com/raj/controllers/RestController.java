@@ -8,13 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.raj.models.User;
+import com.raj.security.User;
 import com.raj.service.DataService;
 
-/**
- * @author Nagesh.Chauhan
- *
- */
+
 @Controller
 @RequestMapping("/api/users")
 public class RestController {
