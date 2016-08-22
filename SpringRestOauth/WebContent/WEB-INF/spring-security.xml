@@ -17,27 +17,24 @@
  
 	<!-- This is default url to get a token from OAuth -->
 	<http pattern="/oauth/token" create-session="stateless" authentication-manager-ref="clientAuthenticationManager"
-		xmlns="http://www.springframework.org/schema/security" use-expressions="true">
+		xmlns="http://www.springframework.org/schema/security" use-expressions="false">
 		<csrf disabled="true"/> <!-- Added by Raj -->
 		<intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
+		<!-- <intercept-url pattern="/oauth/token" access="ROLE_ADMIN,IS_AUTHENTICATED_FULLY" /> -->
 		<!-- <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_ANONYMOUSLY" /> -->
 		<!-- <intercept-url pattern="/oauth/token" access="hasRole('ROLE_ADMIN')" /> -->
 		<anonymous enabled="false" />
 		<http-basic entry-point-ref="clientAuthenticationEntryPoint" />
-		<!-- include this only if you need to authenticate clients via request 
-			parameters -->
-		<custom-filter ref="clientCredentialsTokenEndpointFilter"
-			after="BASIC_AUTH_FILTER" />
+		<!-- include this only if you need to authenticate clients via request parameters -->
+		<custom-filter ref="clientCredentialsTokenEndpointFilter" after="BASIC_AUTH_FILTER" />
 		<access-denied-handler ref="oauthAccessDeniedHandler" />
 	</http>
 
 	<!-- This is where we tells spring security what URL should be protected 
 		and what roles have access to them -->
 	<!-- <http pattern="/api/**" create-session="never" -->
-	<http pattern="/test/*" create-session="never"
-		entry-point-ref="oauthAuthenticationEntryPoint"
-		access-decision-manager-ref="accessDecisionManager"
-		xmlns="http://www.springframework.org/schema/security">
+	<http pattern="/test/*" create-session="never" entry-point-ref="oauthAuthenticationEntryPoint"
+		access-decision-manager-ref="accessDecisionManager" xmlns="http://www.springframework.org/schema/security">
 		<anonymous enabled="false" />
 		<!-- <intercept-url pattern="/api/**" access="ROLE_USER" /> -->
 		<intercept-url pattern="/test/*" access="ROLE_USER" />
@@ -160,13 +157,11 @@
 
 	<oauth:client-details-service id="clientDetails">
 		<!-- clients -->
-		<oauth:client client-id="CS"
-			authorized-grant-types="authorization_code,client_credentials"
-			authorities="ROLE_ADMIN" scope="read,write,trust" secret="secret" />
+		<oauth:client client-id="CS" authorized-grant-types="password,authorization_code,refresh_token,implicit"
+            authorities="ROLE_ADMIN" scope="read,write,trust" secret="secret" />
 
-		<oauth:client client-id="CS"
-			authorized-grant-types="password,authorization_code,refresh_token,implicit"
-			secret="secret" authorities="ROLE_USER" />
+			<oauth:client client-id="API" authorized-grant-types="password,authorization_code,refresh_token,implicit"
+			secret="somesecret" scope="read,write,trust" authorities="ROLE_USER" />
 
 	</oauth:client-details-service>
 
