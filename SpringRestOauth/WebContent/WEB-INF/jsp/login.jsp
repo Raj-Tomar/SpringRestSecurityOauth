@@ -11,21 +11,21 @@
 <title>Login</title>
 </head>
 <body>
-<c:url var="userLogin" value="/login"/>
-<form action="${userLogin}" method="POST">
-	<table align="center" style="margin-top: 150px;">
+<table align="center" style="margin-top: 150px;">
+	<c:url var="userLogin" value="/login"/>
+	<form:form action="${userLogin}" method="POST" commandName="user">
 		<tr>
 			<td>User Name: </td>
-			<td><input type="text" name="userName"/></td>
+			<td><form:input path="userName" name="userName"/></td>
 		</tr>
 		<tr>
 			<td>Password : </td>
-			<td><input type="password" name="password"/></td>
+			<td><form:password path="password" name="password"></form:password></td>
 		</tr>
 		<tr>
 			<td colspan="2" align="center"><input type="submit" value="Login"/></td>
 		</tr>
-	</table>
-</form>
+	</form:form>
+</table>
 </body>
 </html>

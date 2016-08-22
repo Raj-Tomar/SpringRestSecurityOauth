@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
@@ -31,8 +32,9 @@ public class TokenController {
 		ResponseEntity<String> responseEntity = null;
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
+		//headers.add("Authorization", "");
 		HttpEntity<String> entity = null;
-		RestTemplate restTemplate = null;
+		RestTemplate restTemplate = new RestTemplate();
 		String responseFromAuth = null;
 		String client_type = "";
 		String secret = "";
@@ -65,8 +67,9 @@ public class TokenController {
 					+ client_type + "&client_secret=" + secret + "&username=" + userName + "&password=" + pwd;
 			entity = new HttpEntity<String>(formData, headers);
 			try {
-				restTemplate = new RestTemplate();
+				System.out.println("URL: "+processed_url);
 				responseFromAuth = restTemplate.postForObject(processed_url, entity, String.class);
+				System.out.println("Output:\n"+responseFromAuth);
 				if (responseFromAuth == null) {
 					status = "2";
 					resjson.put("s", status);
@@ -89,8 +92,18 @@ public class TokenController {
 					resp_json.put("sessionId", session.getId());
 					responseEntity = new ResponseEntity<String>(resp_json.toString(), HttpStatus.OK);
 				}
-			} catch(Exception e){
+			} 
+			catch (HttpClientErrorException e) {
 				e.printStackTrace();
+		        System.out.println(e.getStatusCode());
+		        System.out.println(e.getResponseBodyAsString());
+		    }
+			catch(Exception e){
+				e.printStackTrace();
+				resjson.put("s", "2");
+				resjson.put("msg", "Invalid Credentials");
+				responseEntity = new ResponseEntity<String>(resjson.toString(), HttpStatus.OK);
+				return responseEntity;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -6,10 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.raj.models.UserDto;
 import com.raj.security.User;
 import com.raj.service.DataService;
 
@@ -22,7 +24,8 @@ public class RestController {
 	private DataService dataService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home() {
+	public String home(Model model) {
+		model.addAttribute("user", new UserDto());
 		return "login";
 	}
 	

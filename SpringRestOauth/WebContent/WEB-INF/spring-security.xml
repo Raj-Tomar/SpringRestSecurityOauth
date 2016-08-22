@@ -17,8 +17,11 @@
  
 	<!-- This is default url to get a token from OAuth -->
 	<http pattern="/oauth/token" create-session="stateless" authentication-manager-ref="clientAuthenticationManager"
-		xmlns="http://www.springframework.org/schema/security">
+		xmlns="http://www.springframework.org/schema/security" use-expressions="true">
+		<csrf disabled="true"/> <!-- Added by Raj -->
 		<intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />
+		<!-- <intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_ANONYMOUSLY" /> -->
+		<!-- <intercept-url pattern="/oauth/token" access="hasRole('ROLE_ADMIN')" /> -->
 		<anonymous enabled="false" />
 		<http-basic entry-point-ref="clientAuthenticationEntryPoint" />
 		<!-- include this only if you need to authenticate clients via request 
@@ -41,8 +44,7 @@
 		<custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
 		<access-denied-handler ref="oauthAccessDeniedHandler" />
 	</http>
-
-
+	
 	<bean id="oauthAuthenticationEntryPoint" class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">
 		<property name="realmName" value="test" />
 	</bean>
@@ -64,7 +66,7 @@
 				<bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
 				<bean class="org.springframework.security.access.vote.RoleVoter" />
 				<bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
-				<!-- added by raj -->
+				<!-- Added by raj (For Spring Security 4.x)-->
 				<bean class="org.springframework.security.web.access.expression.WebExpressionVoter" />
 			</list>
 		</constructor-arg>
@@ -158,13 +160,13 @@
 
 	<oauth:client-details-service id="clientDetails">
 		<!-- clients -->
-		<oauth:client client-id="restapp"
+		<oauth:client client-id="CS"
 			authorized-grant-types="authorization_code,client_credentials"
 			authorities="ROLE_ADMIN" scope="read,write,trust" secret="secret" />
 
-		<oauth:client client-id="restapp"
+		<oauth:client client-id="CS"
 			authorized-grant-types="password,authorization_code,refresh_token,implicit"
-			secret="somesecret" authorities="ROLE_USER" />
+			secret="secret" authorities="ROLE_USER" />
 
 	</oauth:client-details-service>
 
