@@ -90,31 +90,6 @@
         <constructor-arg ref="dataSource" />
 	</bean>
 	
-	<context:property-placeholder location="classpath:hibernate.properties" />
-	
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${jdbc.connection.driver_class}"></property>
-		<property name="url" value="${jdbc.connection.url}"></property>
-		<property name="username" value="${jdbc.connection.username}"></property>
-		<property name="password" value="${jdbc.connection.password}"></property>
-	</bean>
-	
-	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-    <property name="dataSource" ref="dataSource" />
-		<property name="annotatedClasses">
-	  		<list>
-	  			<value>com.raj.models.ClientDetails</value>
-	  		</list>
-	  	</property>
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
-				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
-				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2dll.auto} </prop>
-			</props>
-		</property>
-	</bean>
-
 	<!-- This is where we defined token based configurations, token validity 
 		and other things -->
 	<bean id="tokenServices" class="org.springframework.security.oauth2.provider.token.DefaultTokenServices">
