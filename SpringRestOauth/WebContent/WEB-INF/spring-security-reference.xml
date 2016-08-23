@@ -84,7 +84,7 @@
 		</authentication-provider>
 	</authentication-manager>
 	
-	<bean id="userDetailService" class="com.raj.security.MyUserDetailsService"/>
+	<bean id="userDetailService" class="com.antelope.auth.commontoken.userinfo.MyUserDetailsService"/>
 
 	<bean id="clientDetailsUserService" class="org.springframework.security.oauth2.provider.client.ClientDetailsUserDetailsService">
 		<constructor-arg ref="clientDetails" />
@@ -114,7 +114,14 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="annotatedClasses">
 	  		<list>
-				<value>com.raj.model.ClientDetails</value>
+	  			<value>com.antelope.auth.model.UserOtpBean</value>
+				<value>com.antelope.auth.model.UserPinBean</value>
+				<value>com.antelope.auth.model.UserRegistrationBean</value>
+				<value>com.antelope.auth.model.CsUserBean</value>
+				<value>com.antelope.auth.model.ReportCategoryBean</value>
+				<value>com.antelope.auth.model.ReportTypeBean</value>
+				<value>com.antelope.auth.model.ClientDetails</value>
+				<value>com.antelope.auth.model.CsAlrtMsgBean</value>
 	  		</list>
 	  	</property>
 	 	<property name="hibernateProperties">
@@ -128,6 +135,7 @@
 				<prop key="hibernate.jdbc.batch_versioned_data">${hibernate.jdbc.batch_versioned_data}</prop>
 				<prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop>
 				<prop key="hibernate.connection.autocommit">${hibernate.connection.autocommit}</prop>
+				<prop key="hibernate.connection.isolation">1</prop>
 				<!-- <prop key="hibernate.order_inserts">true</prop> -->
 			</props>
 		</property>

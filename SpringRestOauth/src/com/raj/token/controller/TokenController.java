@@ -26,7 +26,7 @@ import com.raj.models.UserDto;
 @RestController
 public class TokenController {
 
-	@RequestMapping(value="/getAuthenticationToken", method=RequestMethod.POST )
+	@RequestMapping(value="/getAuthenticationToken", method=RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	@ResponseBody
 	public ResponseEntity<String> createAuthenticationToken(@RequestBody String formData, @RequestHeader HttpHeaders head, HttpServletRequest request) {
 		ResponseEntity<String> responseEntity = null;
